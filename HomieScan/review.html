@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Review Carousel</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #EBFFD8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .carousel-container {
+      width: 960px; /* 3 cards x 300px + 2 gaps x 30px */
+      overflow: hidden;
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 30px;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .review-card {
+      flex: 0 0 300px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .review-header {
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      color: #40798C;
+    }
+
+    .review-text {
+      font-size: 15px;
+      color: #2F4858;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+<div class="carousel-container">
+  <div class="carousel-track" id="carouselTrack">
+    <div class="review-card">
+      <div class="review-header">⭐️⭐️⭐️⭐️⭐️ <span>- Priya</span></div>
+      <div class="review-text">Found my ideal roommate in just 3 days. Super helpful!</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">⭐️⭐️⭐️⭐️☆ <span>- Aman</span></div>
+      <div class="review-text">Really intuitive design and matching algorithm!</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">⭐️⭐️⭐️⭐️⭐️ <span>- Isha</span></div>
+      <div class="review-text">Helped me connect with people who matched my lifestyle.</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">⭐️⭐️⭐️☆☆ <span>- Rahul</span></div>
+      <div class="review-text">It’s good, but I wish there were more location filters.</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">⭐️⭐️⭐️⭐️⭐️ <span>- Simran</span></div>
+      <div class="review-text">Absolutely love this app. Best roommate finder ever!</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">⭐️⭐️⭐️⭐️☆ <span>- Ankit</span></div>
+      <div class="review-text">Easy to use and had great recommendations. Loved it!</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const track = document.getElementById('carouselTrack');
+  const totalCards = 6;
+  const visibleCards = 3;
+  const cardWidth = 300;
+  const gap = 30;
+  const fullCardWidth = cardWidth + gap;
+  let index = 0;
+
+  setInterval(() => {
+    index++;
+    if (index > totalCards - visibleCards) index = 0;
+    track.style.transform = `translateX(-${index * fullCardWidth}px)`;
+  }, 2500);
+</script>
+
+</body>
+</html>
