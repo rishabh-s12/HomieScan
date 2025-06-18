@@ -1,116 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>HomieScan — Find Your Perfect Roommate</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      body {
-        font-family: 'Poppins', sans-serif;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HomieScan — Find Your Perfect Roommate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
 
-      .hero::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: url('background.webp');
-        filter: blur(6px);
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        z-index: 0;
-        opacity: 0.5;
-      }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -10;
+      background: url('bg2.png') no-repeat center center;
+      background-size: cover;
+      filter: blur(1px);
+      opacity: 1;
+    }
 
-      #webcam {
-        object-fit: cover;
-      }
-    </style>
-  </head>
-  <body class="bg-[#F9FAFB] text-[#2D2A42]">
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('background.jpg') no-repeat center center;
+      background-size: cover;
+      filter: blur(4px);
+      z-index: 0;
+      opacity: 0.8;
+    }
 
-    <!-- Header -->
-    <header class="bg-white shadow-md px-6 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-semibold text-[#1F1B3A]">HomieScan</h1>
-      <nav class="space-x-6">
-        <a href="#" class="text-[#1F1B3A] font-medium hover:text-[#9AE6B4]">Home</a>
-        <a href="#" class="text-[#1F1B3A] font-medium hover:text-[#9AE6B4]">Sign Up / Log In</a>
-        <a href="#" class="text-[#1F1B3A] font-medium hover:text-[#9AE6B4]">Chat</a>
-      </nav>
-    </header>
+    .features {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      padding: 40px 20px;
+    }
 
-    <!-- Hero Section -->
-    <section class="relative h-[90vh] flex items-center bg-[#F9FAFB] overflow-hidden">
-      <div class="hero absolute inset-0 z-0"></div>
-      <div class="relative z-10 px-10 max-w-md text-white">
+    .box {
+      position: relative;
+      width: 190px;
+      height: 265px;
+      background: #081053;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px #03181c;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .box:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px #02252b;
+    }
+
+    .box-image {
+      height: 145px;
+      width: 100%;
+      background-size: cover;
+      background-position: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      flex-shrink: 0;
+    }
+
+    .box-content {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-grow: 1;
+    }
+
+    .box .name {
+      margin-top: 8px;
+      font-weight: bold;
+      color: #f7f7f7;
+      font-size: 16px;
+    }
+
+    .box .desc {
+      margin-top: 6px;
+      font-size: 14px;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .box:hover .desc {
+      opacity: 1;
+    }
+
+
+    /* Carousel */
+    .carousel-container {
+      width: 960px; /* 3 cards x 300px + 2 gaps x 30px */
+      overflow: hidden;
+      margin-bottom: 50px;
+      margin-left: 145px; 
+    }
+
+    .carousel-track {
+      display: flex;
+      gap: 30px;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .review-card {
+      flex: 0 0 300px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .review-header {
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      color: #40798C;
+    }
+
+    .review-text {
+      font-size: 15px;
+      color: #2F4858;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body class="bg-[#EBFFD8] text-[#2D2A42]">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-[#081053] via-[#8DBCC7] to-[#A4CCD9] shadow-md px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-semibold text-white">HomieScan</h1>
+    <nav class="space-x-6">
+      <a href="#" class="text-[#1F1B3A] font-medium hover:text-[#081053]">Home</a>
+      <a href="#" class="text-[#1F1B3A] font-medium hover:text-[#081053]">Sign Up / Log In</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative h-[80vh] flex items-center overflow-hidden bg-[#C4E1E6]">
+    <div class="hero absolute inset-0 z-0"></div>
+    <div class="relative z-10 flex items-center px-10 gap-12">
+      <div class="max-w-md text-white">
         <h2 class="text-4xl font-bold mb-4">Find your perfect roommate vibe</h2>
         <p class="mb-6">Compatibility-based matching to make shared living easy, fun, and drama-free.</p>
-        <button class="bg-white text-[#1F1B3A] font-semibold py-2 px-6 rounded-full hover:bg-[#d1fae5] transition">
+        <button class="bg-white text-[#1F1B3A] font-semibold py-2 px-6 rounded-full hover:bg-[#A4CCD9] transition">
           Find Your Roomie
         </button>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Why HomieScan Section -->
-    <section class="py-16 px-6 text-center bg-white">
-      <h3 class="text-3xl font-semibold text-[#1F1B3A] mb-10">Why HomieScan?</h3>
-      <div class="flex justify-center flex-wrap gap-8">
-        <div class="bg-[#FFFFFF] shadow-md rounded-xl p-6 w-72 border border-[#E5E7EB]">
-          <h4 class="text-xl font-semibold mb-2">Verified Profiles</h4>
-          <p class="text-[#6B7280]">Ensure safety through identity-verified users.</p>
-        </div>
-        <div class="bg-[#FFFFFF] shadow-md rounded-xl p-6 w-72 border border-[#E5E7EB]">
-          <h4 class="text-xl font-semibold mb-2">Compatibility Matching</h4>
-          <p class="text-[#6B7280]">Get matched based on vibes, lifestyle, and habits.</p>
-        </div>
-        <div class="bg-[#FFFFFF] shadow-md rounded-xl p-6 w-72 border border-[#E5E7EB]">
-          <h4 class="text-xl font-semibold mb-2">Instant Chat</h4>
-          <p class="text-[#6B7280]">Message and connect with matches seamlessly.</p>
-        </div>
+  <!-- Features Section -->
+  <section class="features">
+    <div class="box">
+      <div class="box-image" style="background-image: url('pact.jpg');"></div>
+      <div class="box-content">
+        <div class="name">Homify Pact</div>
+        <div class="desc">Auto-generate and customize roommate agreements with ease.</div>
       </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="py-16 px-6 text-center bg-[#F9FAFB]">
-      <h3 class="text-3xl font-semibold text-[#1F1B3A] mb-10">How It Works</h3>
-      <div class="flex justify-center flex-wrap gap-8">
-        <div class="bg-white border border-[#E5E7EB] rounded-xl p-6 w-72 shadow-sm">
-          <h4 class="text-xl font-semibold mb-2">Step 1: Sign Up</h4>
-          <p class="text-[#6B7280]">Create your profile and verify your details.</p>
-        </div>
-        <div class="bg-white border border-[#E5E7EB] rounded-xl p-6 w-72 shadow-sm">
-          <h4 class="text-xl font-semibold mb-2">Step 2: Build Profile</h4>
-          <p class="text-[#6B7280]">Answer questions that define your vibe.</p>
-        </div>
-        <div class="bg-white border border-[#E5E7EB] rounded-xl p-6 w-72 shadow-sm">
-          <h4 class="text-xl font-semibold mb-2">Step 3: Get Matches</h4>
-          <p class="text-[#6B7280]">See your top potential homies and start chatting.</p>
-        </div>
+    </div>
+    <div class="box">
+      <div class="box-image" style="background-image: url('score.png');"></div>
+      <div class="box-content">
+        <div class="name">Homify MatchScore</div>
+        <div class="desc">Get a compatibility score tailored to your lifestyle.</div>
       </div>
-    </section>
-
-    <!-- Webcam Sign-Up -->
-    <section class="py-16 px-6 bg-white text-center">
-      <h3 class="text-3xl font-semibold text-[#1F1B3A] mb-10">Sign Up with Webcam</h3>
-      <div class="flex flex-col items-center gap-6">
-        <video id="webcam" class="w-72 h-52 rounded-lg border-2 border-[#E5E7EB]" autoplay playsinline></video>
-        <form class="flex flex-col gap-4 w-full max-w-sm">
-          <input type="email" placeholder="Email" required class="p-3 rounded-md border border-[#E5E7EB]"/>
-          <input type="password" placeholder="Password" required class="p-3 rounded-md border border-[#E5E7EB]"/>
-          <button type="submit" class="bg-[#9AE6B4] hover:bg-[#7FDCA4] text-[#1F1B3A] font-semibold py-2 rounded-md transition">
-            Sign Up
-          </button>
-        </form>
+    </div>
+    <div class="box">
+      <div class="box-image" style="background-image: url('chat.jpg');"></div>
+      <div class="box-content">
+        <div class="name">Homify SecureChat</div>
+        <div class="desc">Private and encrypted in-app messaging for flatmates.</div>
       </div>
-    </section>
+    </div>
+    <div class="box">
+      <div class="box-image" style="background-image: url('spotify.jpg');"></div>
+      <div class="box-content">
+        <div class="name">Homify Blend</div>
+        <div class="desc">Create shared music playlists that update daily.</div>
+      </div>
+    </div>
+    <div class="box">
+      <div class="box-image" style="background-image: url('bargain.jpg');"></div>
+      <div class="box-content">
+        <div class="name">Homify Bargain</div>
+        <div class="desc">Negotiate and split rent seamlessly with flatmates.</div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="bg-[#F3F4F6] py-10 text-center text-sm text-[#6B7280]">
+  <!-- Carousel Section -->
+ <div class="carousel-container">
+  <div class="carousel-track" id="carouselTrack">
+    <div class="review-card">
+      <div class="review-header">⭐️⭐️⭐️⭐️⭐️ <span>- Priya</span></div>
+      <div class="review-text">Found my ideal roommate in just 3 days. Super helpful!</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">⭐️⭐️⭐️⭐️☆ <span>- Aman</span></div>
+      <div class="review-text">Really intuitive design and matching algorithm!</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">⭐️⭐️⭐️⭐️⭐️ <span>- Isha</span></div>
+      <div class="review-text">Helped me connect with people who matched my lifestyle.</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">⭐️⭐️⭐️☆☆ <span>- Rahul</span></div>
+      <div class="review-text">It’s good, but I wish there were more location filters.</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">⭐️⭐️⭐️⭐️⭐️ <span>- Simran</span></div>
+      <div class="review-text">Absolutely love this app. Best roommate finder ever!</div>
+    </div>
+    <div class="review-card">
+      <div class="review-header">⭐️⭐️⭐️⭐️☆ <span>- Ankit</span></div>
+      <div class="review-text">Easy to use and had great recommendations. Loved it!</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const track = document.getElementById('carouselTrack');
+  const totalCards = 6;
+  const visibleCards = 3;
+  const cardWidth = 300;
+  const gap = 30;
+  const fullCardWidth = cardWidth + gap;
+  let index = 0;
+
+  setInterval(() => {
+    index++;
+    if (index > totalCards - visibleCards) index = 0;
+    track.style.transform = `translateX(-${index * fullCardWidth}px)`;
+  }, 2500);
+</script>
+
+ <!-- Footer -->
+    <footer class="bg-[#081053] py-10 text-center text-sm text-[#6B7280]">
       <div class="space-x-4 mb-4">
         <a href="#" class="hover:text-[#1F1B3A]">About</a>
         <a href="#" class="hover:text-[#1F1B3A]">Contact</a>
@@ -122,17 +266,6 @@
       <p>&copy; 2025 HomieScan. All rights reserved.</p>
     </footer>
 
-    <!-- Webcam Script -->
-    <script>
-      const video = document.getElementById('webcam');
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-          video.srcObject = stream;
-        })
-        .catch(error => {
-          console.error('Webcam access denied:', error);
-        });
-    </script>
 
-  </body>
+</body>
 </html>
