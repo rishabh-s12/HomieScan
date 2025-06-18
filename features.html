@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Homify Feature Boxes</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #f0f2f5;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      font-family: Arial, sans-serif;
+    }
+    .box {
+      position: relative;
+      width: 155px;
+      height: 155px;
+      background: #315c09;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px #C4E1E6;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      text-align: center;
+    }
+    .box:hover {
+      width: 240px;
+      height: 240px;
+      transform: translateY(-4px) scale(1);
+      box-shadow: 0 12px 30px #C4E1E6;
+    }
+    .box i {
+      font-size: 42px;
+      color: #05668d;
+      transition: color 0.3s ease;
+    }
+    .box:hover i {
+      color: #028090;
+    }
+    .box .name {
+      margin-top: 12px;
+      font-weight: bold;
+      color: #f7f7f7;
+      font-size: 16px;
+      transition: font-size 0.3s ease;
+    }
+    .box .desc {
+      opacity: 0;
+      margin-top: 8px;
+      font-size: 14px;
+      color: #b6aaaa;
+      line-height: 1.4;
+      transition: opacity 0.3s ease 0.2s;
+    }
+    .box:hover .name {
+      font-size: 18px;
+    }
+    .box:hover .desc {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <i class="fas fa-handshake"></i>
+    <div class="name">Homify Pact</div>
+    <div class="desc">Auto-generate and customize roommate agreements with ease.</div>
+  </div>
+
+  <div class="box">
+    <i class="fas fa-chart-line"></i>
+    <div class="name">Homify MatchScore</div>
+    <div class="desc">Get a compatibility score tailored to your lifestyle.</div>
+  </div>
+
+  <div class="box">
+    <i class="fas fa-lock"></i>
+    <div class="name">Homify SecureChat</div>
+    <div class="desc">Private and encrypted in-app messaging for flatmates.</div>
+  </div>
+
+  <div class="box">
+    <i class="fas fa-music"></i>
+    <div class="name">Homify Blend</div>
+    <div class="desc">Create shared music playlists that update daily.</div>
+  </div>
+
+  <div class="box">
+    <i class="fas fa-hand-holding-usd"></i>
+    <div class="name">Homify Bargain</div>
+    <div class="desc">Negotiate and split rent seamlessly with flatmates.</div>
+  </div>
+
+</body>
+</html>
