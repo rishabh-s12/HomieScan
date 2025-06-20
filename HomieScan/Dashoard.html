@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard | Homify</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: #f7fff1;
+      color: #2f3e46;
+    }
+    .dashboard-container {
+      max-width: 1300px;
+      margin: 40px auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 30px;
+      height: calc(100vh - 80px); /* Fill viewport height minus margin */
+    }
+    .sidebar {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 32px 24px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+    }
+    .profile-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+    .sidebar img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .sidebar h2 {
+      font-size: 1.6rem;
+      color: #2f4858;
+    }
+    .sidebar p {
+      margin-top: -4px;
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .edit-btn {
+      background: #40798C;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      overflow-y: auto;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #2f4858;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #4d7c0f;
+      margin-bottom: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    .match-item, .message-item, .preference-card {
+      border-radius: 12px;
+      background-color: #f0fdf4;
+      padding: 16px;
+      position: relative;
+    }
+    .match-item strong, .message-item strong {
+      color: #40798C;
+    }
+    .match-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: #d9f99d;
+      color: #1f3b08;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    .btn {
+      margin-top: 12px;
+      background: #40798C;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .hidden-preferences {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .show { display: flex; }
+
+    .preferences-box {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .preference-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <div class="sidebar">
+      <div class="profile-section">
+        <img src="C:\Users\mayur\OneDrive\Desktop\5096160.jpg" alt="Profile Picture" />
+        <h2>[User Name]</h2>
+        <p>Flatmate Seeker</p>
+        <button class="edit-btn">Edit Profile</button>
+      </div>
+      <div class="card preferences-box">
+        <div class="section-title">
+          Your Preferences
+          <a href="edit-preferences.html" style="float:right; font-size: 14px; text-decoration: underline; color: #40798C;">Edit Preferences</a>
+        </div>
+        <div class="grid">
+          <div class="preference-card">
+            <div><strong>Preferred Budget:</strong> ₹10,000–₹12,000</div>
+            <div><strong>Location:</strong> Koramangala, HSR, Indiranagar</div>
+            <div><strong>Cleanliness:</strong> High</div>
+            <div><strong>Diet:</strong> Vegetarian</div>
+            <div class="hidden-preferences" id="extraPreferences">
+              <div><strong>Smoking:</strong> Not Allowed</div>
+              <div><strong>Pets:</strong> Not Comfortable</div>
+              <div><strong>Work Schedule:</strong> Remote/Hybrid</div>
+              <div><strong>Music Volume:</strong> Low</div>
+              <div><strong>Visitors Allowed:</strong> Occasionally</div>
+              <div><strong>Cooking Preference:</strong> Daily Home Cooking</div>
+              <div><strong>Sleep Schedule:</strong> Early Riser</div>
+              <div><strong>Gender Preference:</strong> No Preference</div>
+            </div>
+            <button class="btn" onclick="document.getElementById('extraPreferences').classList.toggle('show')">View More</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="main-content">
+      <h1>Welcome Back 👋</h1>
+      <div class="card">
+        <div class="section-title">Your Top Matches <a href="ListView.html" style="float:right; font-size: 14px; text-decoration: underline; color: #40798C;">View All</a></div>
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+          <div class="match-item">
+            <div class="match-badge">92%</div>
+            <strong>Flat near MG Road</strong>
+            <p>Budget: ₹12000</p>
+            <button class="btn">View Listing</button>
+          </div>
+          <div class="match-item">
+            <div class="match-badge">88%</div>
+            <strong>Flat in Indiranagar</strong>
+            <p>Budget: ₹9000</p>
+            <button class="btn">View Listing</button>
+          </div>
+          <div class="match-item">
+            <div class="match-badge">85%</div>
+            <strong>Flat near HSR Layout</strong>
+            <p>Budget: ₹11000</p>
+            <button class="btn">View Listing</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="display: flex; align-items: center; justify-content: space-between; padding: 20px 30px;">
+        <div>
+          <div class="section-title" style="margin-bottom: 0;">Messages</div>
+          <p style="color: #6b7280; font-size: 14px;">Check your latest conversations and connect with flatmates.</p>
+        </div>
+        <a href="chat.html">
+          <button class="btn" style="padding: 12px 24px; font-size: 15px; border-radius: 12px;">Your Inbox →</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
