@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Listing Details | Homify</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #f5fdf3;
+      color: #333;
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .detail-container {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 24px;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: #40798C;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .main-card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      padding: 40px;
+    }
+
+    .top-section {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .main-img {
+      flex: 1;
+      min-width: 320px;
+      max-height: 420px;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    .info-panel {
+      flex: 1;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      color: #2f4858;
+      margin-bottom: 12px;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 24px;
+      font-size: 16px;
+    }
+
+    .meta div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .compatibility {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 52px;
+      color: #1f3b08;
+      font-weight: 700;
+    }
+
+    .compatibility span {
+      font-size: 17px;
+      font-weight: 500;
+      margin-top: -4px;
+      color: #4d7c0f;
+    }
+
+    .tags {
+      margin-top: 8px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #d9f99d;
+      color: #3f6212;
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      margin: 6px 8px 0 0;
+    }
+
+    .gallery {
+      margin-top: 40px;
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+    }
+
+    .gallery img {
+      width: 220px;
+      height: 150px;
+      border-radius: 14px;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    .section {
+      margin-top: 50px;
+    }
+
+    .section h3 {
+      font-size: 1.5rem;
+      color: #4d7c0f;
+      margin-bottom: 16px;
+    }
+
+    .section p {
+      line-height: 1.8;
+      color: #444;
+      font-size: 16px;
+    }
+
+    .amenities {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px 20px;
+      margin-top: 14px;
+      font-size: 15px;
+    }
+
+    .footer {
+      text-align: center;
+      margin: 60px 0 20px;
+    }
+
+    .footer button {
+      background: #40798C;
+      color: white;
+      border: none;
+      padding: 16px 36px;
+      border-radius: 12px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .footer button:hover {
+      background: #345e6a;
+    }
+
+    @media (max-width: 768px) {
+      .top-section {
+        flex-direction: column;
+      }
+
+      .main-card {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="detail-container">
+    <a href="ListView.html" class="back-btn">← Back to Listings</a>
+    <div class="main-card">
+      <div class="top-section">
+        <img src="" alt="Main View" class="main-img" id="mainImage" />
+        <div class="info-panel">
+          <h1 id="listingTitle">Listing Title</h1>
+          <div class="meta">
+            <div><strong>Budget:</strong> <span id="metaBudget"></span></div>
+            <div><strong>Distance:</strong> <span id="metaDistance"></span></div>
+            <div class="compatibility"><div id="metaMatchValue">--%</div><span>Match Score</span></div>
+          </div>
+          <div class="tags" id="detailTags"></div>
+        </div>
+      </div>
+
+      <div class="gallery" id="thumbGallery"></div>
+
+      <div class="section">
+        <h3>Description</h3>
+        <p id="detailDesc"></p>
+      </div>
+
+      <div class="section">
+        <h3>Amenities & Details</h3>
+        <div class="amenities">
+          <p><strong>Bedrooms:</strong> 2</p>
+          <p><strong>Bathrooms:</strong> 1</p>
+          <p><strong>Balcony:</strong> Yes</p>
+          <p><strong>Furnished:</strong> Partial</p>
+          <p><strong>WiFi:</strong> Included</p>
+          <p><strong>Parking:</strong> Available</p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>House Rules</h3>
+        <p>No smoking indoors. Quiet hours: 10pm–7am. Overnight guests allowed with notice.</p>
+      </div>
+
+      <div class="footer">
+        <button>Contact Owner</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const images = [
+      "C:/Users/mayur/OneDrive/Desktop/5096160.jpg",
+      "C:/Users/mayur/OneDrive/Desktop/5096160.jpg",
+      "C:/Users/mayur/OneDrive/Desktop/5096160.jpg",
+      "C:/Users/mayur/OneDrive/Desktop/5096160.jpg"
+    ];
+    
+    const mainImg = document.getElementById('mainImage');
+    const gallery = document.getElementById('thumbGallery');
+    
+    images.forEach((url, idx) => {
+      if (idx === 0) mainImg.src = url;
+      const img = document.createElement('img');
+      img.src = url;
+      img.onclick = () => (mainImg.src = url);
+      gallery.appendChild(img);
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get('id')) || 0;
+
+    const listing = {
+      title: `Listing ${id + 1}`,
+      budget: 9000 + (id % 5) * 3000,
+      distance: `${(0.5 + (id % 10) * 0.5).toFixed(1)} km from location`,
+      score: 60 + (id * 7) % 41,
+      desc: `Detailed description for listing #${id + 1}. Spacious flat with vibrant community and quick commute.`,
+      tags: ['Vegetarian', 'No Pets', 'Quiet']
+    };
+
+    document.getElementById('listingTitle').innerText = listing.title;
+    document.getElementById('metaBudget').innerText = `₹${listing.budget}`;
+    document.getElementById('metaDistance').innerText = listing.distance;
+    document.getElementById('metaMatchValue').innerText = `${listing.score}%`;
+    document.getElementById('detailDesc').innerText = listing.desc;
+
+    const tagsContainer = document.getElementById('detailTags');
+    listing.tags.forEach(tag => {
+      tagsContainer.innerHTML += `<span class='tag'>${tag}</span>`;
+    });
+  </script>
+</body>
+</html>

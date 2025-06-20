@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explore Listings | Homify</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7fff1;
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .container {
+      display: flex;
+      width: 100%;
+      max-width: 1440px;
+      margin: 40px auto;
+      padding: 0 20px;
+      gap: 30px;
+    }
+    .sidebar {
+      flex: 1;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      height: fit-content;
+    }
+    .sidebar h3 { font-size: 20px; margin-bottom: 10px; color: #4d7c0f; }
+    .sidebar label { display: block; margin: 12px 0 6px; font-weight: 600; color: #444; }
+    .sidebar select, .sidebar .checkbox-group {
+      width: 100%; padding: 10px; border-radius: 12px; border: 2px solid #d0e6a5;
+      font-size: 15px; background: #f9fff4; margin-bottom: 12px;
+    }
+    .checkbox-group label { display: block; font-weight: normal; margin-bottom: 6px; }
+    .listings {
+      flex: 3; display: flex; flex-direction: column; gap: 24px;
+    }
+    .card, .listing-card {
+      display: flex; align-items: center; background: #ffffff; border-radius: 20px;
+      padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease; gap: 20px;
+      position: relative; text-decoration: none; color: inherit;
+    }
+    .card:hover, .listing-card:hover {
+      transform: translateY(-6px); box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    .card-img {
+      width: 160px; height: 120px; border-radius: 14px;
+      background-color: #e4f7c8; background-size: cover; background-position: center;
+      flex-shrink: 0;
+    }
+    .card-content, .listing-content { flex: 1; position: relative; }
+    .card h4, .listing-title { margin: 0 0 10px; font-size: 20px; color: #40798C; }
+    .card p, .listing-meta { color: #555; font-size: 14px; margin: 0 0 10px; }
+    .compatibility {
+      position: absolute; top: 10px; right: 10px; background: #b4e197;
+      color: #1f3b08; border-radius: 16px; text-align: center;
+      padding: 10px 16px; font-weight: 700; font-size: 32px; line-height: 1.2;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .compatibility small { display: block; font-size: 12px; font-weight: normal; margin-top: 4px; }
+    .tags { margin-top: 8px; }
+    .tag {
+      display: inline-block; background: #d9f99d; color: #3f6212;
+      padding: 6px 12px; border-radius: 999px; font-size: 12px; margin-right: 6px; margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h3>Filter & Sort</h3>
+      <label for="budgetFilter">Budget</label>
+      <select id="budgetFilter" onchange="applyFilters()">
+        <option value="">Any Budget</option>
+        <option value="low">Below ₹10,000</option>
+        <option value="mid">₹10,000–₹20,000</option>
+        <option value="high">Above ₹20,000</option>
+      </select>
+      <label for="sortOption">Sort By</label>
+      <select id="sortOption" onchange="applyFilters()">
+        <option value="score">Compatibility</option>
+        <option value="newest">Newest</option>
+        <option value="low_high">Budget: Low to High</option>
+        <option value="high_low">Budget: High to Low</option>
+      </select>
+      <label>Dealbreakers</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" value="Non-Vegetarian" onchange="applyFilters()"/> Non-Vegetarian</label>
+        <label><input type="checkbox" value="Smoker" onchange="applyFilters()"/> Smoker</label>
+        <label><input type="checkbox" value="Parties" onchange="applyFilters()"/> Hosts Parties</label>
+        <label><input type="checkbox" value="Pets" onchange="applyFilters()"/> Pets Allowed</label>
+      </div>
+    </div>
+    <div class="listings" id="listingContainer"></div>
+  </div>
+  <script>
+    const listingsData = Array.from({ length: 30 }, (_, i) => ({
+      id : i,
+      city: ['bangalore','delhi','mumbai'][i%3],
+      title: `Listing ${i+1}`,
+      budget: 9000+(i%5)*3000,
+      tags: [i%2===0?'Vegetarian':'Non-Vegetarian',i%3===0?'Smoker':'Non-Smoker',i%4===0?'Pets':'No Pets',i%5===0?'Parties':'Quiet'],
+      desc: `Flatmate opportunity #${i+1} with good amenities and vibes.`, 
+      distance: `${(0.5+(i%10)*0.5).toFixed(1)} km from your location`,
+      score: 60+(i*7)%41
+    }));
+    function renderListings(data) {
+      const container=document.getElementById('listingContainer');container.innerHTML='';
+      data.forEach(item=>{
+        const link=document.createElement('a');link.href=`Alternate DetailView.html?id=${item.id}`;link.className='card listing-card';
+        link.innerHTML=`<div class="card-img" style="background-image:url('https://via.placeholder.com/160x120?text=Flat+${item.id+1}')"></div>
+          <div class="card-content">
+            <div class="compatibility">${item.score}%<small>Match</small></div>
+            <h4>${item.title}, ${item.city.charAt(0).toUpperCase()+item.city.slice(1)}</h4>
+            <p>${item.desc}</p>
+            <p><strong>📍 ${item.distance}</strong></p>
+            <div class="tags"><span class="tag">₹${item.budget}</span>${item.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+          </div>`;
+        container.appendChild(link);
+      });
+    }
+    function applyFilters(){
+      const budget=document.getElementById('budgetFilter').value;
+      const sort=document.getElementById('sortOption').value;
+      const dealbreakers=Array.from(document.querySelectorAll('.checkbox-group input:checked')).map(cb=>cb.value);
+      let filtered=listingsData.filter(item=>{
+        const matchBudget=budget==='low'?item.budget<10000:budget==='mid'?item.budget>=10000&&item.budget<=20000:budget==='high'?item.budget>20000:true;
+        const violates=item.tags.some(t=>dealbreakers.includes(t));
+        return matchBudget&&!violates;
+      });
+      if(sort==='low_high')filtered.sort((a,b)=>a.budget-b.budget);
+      else if(sort==='high_low')filtered.sort((a,b)=>b.budget-a.budget);
+      else if(sort==='score')filtered.sort((a,b)=>b.score-a.score);
+      else if(sort==='newest')filtered.reverse();
+      renderListings(filtered);
+    }
+    window.onload=()=>{document.getElementById('sortOption').value='score';applyFilters();};
+  </script>
+</body>
+</html>
