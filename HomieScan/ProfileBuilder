@@ -1,4 +1,43 @@
-<!DOCTYPE html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -126,54 +165,54 @@
   <div class="form-wrapper">
     <div class="form-step active" id="step1">
       <h2>Step 1: Personal Info</h2>
-      <label>Name</label><input type="text" />
-      <label>Age</label><input type="number" />
-      <label>Gender</label><select><option>Male</option><option>Female</option><option>Other</option></select>
-      <label>Profession</label><input type="text" />
+      <label>Username</label><input type="text" id="userId" />
+      <label>Name</label><input type="text"  id="name" />
+      <label>Age</label><input type="number" id="age"/>
+      <label>Gender</label><select id="gender"><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select>
       
       <div class="buttons"><div></div><button onclick="nextStep(1)">Next</button></div>
     </div>
     <div class="form-step" id="step2">
       <h2>Step 2: Lifestyle Preferences</h2>
       <label>Cleanliness Level</label>
-<select>
+<select id="cleanlinessLevel">
   <option value="very_clean">✨ I sparkle like a Swiffer</option>
   <option value="average">🧼 Tidy-ish, not Monica Geller</option>
   <option value="messy">🎨 Organized chaos is my vibe</option>
 </select>
 
 <label>Sleep Schedule</label>
-<select>
+<select id="sleepSchedule">
   <option value="early_riser">🌅 Early bird, rise & grind</option>
   <option value="flexible">🕰️ Go with the flow</option>
   <option value="night_owl">🌙 Vampire hours enthusiast</option>
 </select>
 
 <label>Wake-up Time</label>
-<input type="time" />
+<input type="time" id="wakeUpTime" />
 
 <label>Noise Tolerance</label>
-<select>
+<select id="noiseTolerance">
   <option value="quiet">🔕 Peace & quiet please</option>
   <option value="moderate">🎶 Chill with tunes & convo</option>
   <option value="loud">🔊 Let’s make some noise</option>
 </select>
 
 <label>Smoking</label>
-<select>
+<select id="smoking">
   <option value="no">🚭 Nope</option>
   <option value="yes">🔥 Smoker's lounge status</option>
 </select>
 
 <label>Drinking</label>
-<select>
+<select id="drinking">
   <option value="never">🥤 Never touch the stuff</option>
   <option value="social">🍷 Only with the squad</option>
   <option value="regular">🍻 Happy hour is sacred</option>
 </select>
 
 <label>Exercise Frequency</label>
-<select>
+<select id="exerciseFrequency">
   <option value="daily">💪 Gym rat</option>
   <option value="sometimes">🧘‍♀️ Occasionally active</option>
   <option value="never">🚫 Exercise? I thought you said extra fries</option>
@@ -183,47 +222,47 @@
     <div class="form-step" id="step3">
       <h2>Step 3: Food & Social Habits</h2>
       <label>Diet</label>
-  <select>
+ <select id="diet">
     <option value="veg">🥕 Plant-powered (Veg)</option>
     <option value="non_veg">🍗 Carnivore vibes</option>
     <option value="vegan">🌱 Hardcore Vegan</option>
   </select>
 
   <label>Cooking Habits</label>
-  <select>
+  <select id="cookingHabits">
     <option value="often">👨‍🍳 MasterChef in the making</option>
     <option value="sometimes">🥄 I cook when UberEats says no</option>
     <option value="never">🔥 Kitchen = danger zone</option>
   </select>
 
   <label>Food Sharing</label>
-  <select>
+  <select id="foodSharing">
     <option value="yes">🍕 What’s mine is yours</option>
     <option value="no">🙅‍♀️ Hands off my snacks</option>
   </select>
 
   <label>Pet Friendly?</label>
-  <select>
+  <select id="petFriendly">
     <option value="yes">🐶 Love all fur babies</option>
     <option value="no">😬 Allergic or just not my thing</option>
   </select>
 
   <label>Guest Policy</label>
-  <select>
+  <select id="guestPolicy">
     <option value="rarely">🔐 My space = my sanctuary</option>
     <option value="sometimes">🎈Occasional hangouts</option>
     <option value="frequently">🏠 Open house always</option>
   </select>
 
   <label>Partying at Home?</label>
-  <select>
+  <select id="partyingAtHome">
     <option value="never">📚 More chill, less thrill</option>
     <option value="sometimes">🕺 When the vibe is right</option>
     <option value="often">🎉 Party central</option>
   </select>
 
   <label>Overnight Guests?</label>
-  <select>
+  <select id="overnightGuests">
     <option value="allowed">🛏️ Sure, guests welcome</option>
     <option value="not_allowed">🚫 No sleepovers, please</option>
   </select>
@@ -249,8 +288,48 @@
     prevStep.classList.add('active');
   }
   function submitForm() {
-    alert('🎉 Profile Submitted!');
-    // Backend hook here
+    const data = {
+       userId: document.getElementById('userId').value, 
+      name: document.getElementById('name').value,
+      age: parseInt(document.getElementById('age').value) || 0,
+      gender: document.getElementById('gender').value,
+      preferences: {
+        cleanlinessLevel: document.getElementById('cleanlinessLevel').value,
+        sleepSchedule: document.getElementById('sleepSchedule').value,
+        wakeUpTime: document.getElementById('wakeUpTime').value,
+        noiseTolerance: document.getElementById('noiseTolerance').value,
+        smoking: document.getElementById('smoking').value,
+        drinking: document.getElementById('drinking').value,
+        exerciseFrequency: document.getElementById('exerciseFrequency').value,
+        diet: document.getElementById('diet').value,
+        cookingHabits: document.getElementById('cookingHabits').value,
+        foodSharing: document.getElementById('foodSharing').value,
+        petFriendly: document.getElementById('petFriendly').value,
+        guestPolicy: document.getElementById('guestPolicy').value,
+        partyingAtHome: document.getElementById('partyingAtHome').value,
+        overnightGuests: document.getElementById('overnightGuests').value
+      }
+  }
+ fetch('http://localhost:5000/api/profiles', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data)
+})
+.then(response => {
+  if (!response.ok) throw new Error('Failed to save profile');
+  return response.json(); // ✅ parse the response
+})
+.then(result => {
+  console.log("✅ Profile created/updated:", result);  // DEBUG THIS
+  localStorage.setItem('username', result.name);
+  localStorage.setItem('userId', result.userId);
+  alert('Profile saved successfully!');
+  window.location.href = 'Dashboard.html';
+})
+.catch(error => {
+  alert('Error: ' + error.message);
+});
+
   }
 </script>
 </body>
