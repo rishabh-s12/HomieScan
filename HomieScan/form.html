@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Roommate Profile Builder</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-image: url('C:/Users/mayur/OneDrive/Desktop/5096160.jpg');
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 40px 0;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.2), transparent 50%),
+                  radial-gradient(circle at 80% 70%, rgba(255,255,255,0.15), transparent 50%);
+      animation: auroraMove 15s infinite alternate;
+      z-index: -1;
+    }
+    @keyframes auroraMove {
+      0% { transform: translate(0%, 0%); }
+      100% { transform: translate(10%, -10%); }
+    }
+    .form-container {
+      width: 95%;
+      max-width: 960px;
+      background: #EBFFD8;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      position: relative;
+      animation: fadeIn 1s ease forwards;
+      height: calc(100vh - 80px);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .form-step {
+      width: 100%;
+      padding: 40px;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      opacity: 0;
+      transition: all 0.5s ease;
+      background: #EBFFD8;
+      height: 100%;
+      overflow-y: auto;
+    }
+    .form-step.active {
+      left: 0;
+      opacity: 1;
+      z-index: 2;
+    }
+    .form-step.exit-left { left: -100%; opacity: 0; }
+    .form-step.exit-right { left: 100%; opacity: 0; }
+    h2 {
+      margin-top: 0;
+      color: #40798C;
+      text-align: center;
+      font-size: 2rem;
+    }
+    label {
+      display: block;
+      margin: 20px 0 6px;
+      font-weight: 600;
+      color: #2F4858;
+    }
+    input, select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 2px solid #A4CCD9;
+      margin-bottom: 14px;
+      font-size: 16px;
+      background-color: #ffffff;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #8DBCC7;
+      box-shadow: 0 0 0 3px rgba(141, 188, 199, 0.3);
+    }
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .buttons button {
+      background: linear-gradient(to right, #8DBCC7, #A4CCD9);
+      color: #fff;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .buttons button:hover {
+      background: linear-gradient(to right, #7BB1C1, #95C4D1);
+      transform: scale(1.05);
+    }
+    .form-wrapper {
+      position: relative;
+      height: 100%;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="form-container">
+  <div class="form-wrapper">
+    <div class="form-step active" id="step1">
+      <h2>Step 1: Personal Info</h2>
+      <label>Name</label><input type="text" />
+      <label>Age</label><input type="number" />
+      <label>Gender</label><select><option>Male</option><option>Female</option><option>Other</option></select>
+      <label>Profession</label><input type="text" />
+      <label>Monthly Budget (₹)</label><input type="number" />
+      <label>Preferred City</label><input type="text" />
+      <div class="buttons"><div></div><button onclick="nextStep(1)">Next</button></div>
+    </div>
+    <div class="form-step" id="step2">
+      <h2>Step 2: Lifestyle Preferences</h2>
+      <label>Cleanliness Level</label>
+<select>
+  <option value="very_clean">✨ I sparkle like a Swiffer</option>
+  <option value="average">🧼 Tidy-ish, not Monica Geller</option>
+  <option value="messy">🎨 Organized chaos is my vibe</option>
+</select>
+
+<label>Sleep Schedule</label>
+<select>
+  <option value="early_riser">🌅 Early bird, rise & grind</option>
+  <option value="flexible">🕰️ Go with the flow</option>
+  <option value="night_owl">🌙 Vampire hours enthusiast</option>
+</select>
+
+<label>Wake-up Time</label>
+<input type="time" />
+
+<label>Noise Tolerance</label>
+<select>
+  <option value="quiet">🔕 Peace & quiet please</option>
+  <option value="moderate">🎶 Chill with tunes & convo</option>
+  <option value="loud">🔊 Let’s make some noise</option>
+</select>
+
+<label>Smoking</label>
+<select>
+  <option value="no">🚭 Nope</option>
+  <option value="yes">🔥 Smoker's lounge status</option>
+</select>
+
+<label>Drinking</label>
+<select>
+  <option value="never">🥤 Never touch the stuff</option>
+  <option value="social">🍷 Only with the squad</option>
+  <option value="regular">🍻 Happy hour is sacred</option>
+</select>
+
+<label>Exercise Frequency</label>
+<select>
+  <option value="daily">💪 Gym rat</option>
+  <option value="sometimes">🧘‍♀️ Occasionally active</option>
+  <option value="never">🚫 Exercise? I thought you said extra fries</option>
+</select>
+      <div class="buttons"><button onclick="prevStep(2)">Back</button><button onclick="nextStep(2)">Next</button></div>
+    </div>
+    <div class="form-step" id="step3">
+      <h2>Step 3: Food & Social Habits</h2>
+      <label>Diet</label>
+  <select>
+    <option value="veg">🥕 Plant-powered (Veg)</option>
+    <option value="non_veg">🍗 Carnivore vibes</option>
+    <option value="vegan">🌱 Hardcore Vegan</option>
+  </select>
+
+  <label>Cooking Habits</label>
+  <select>
+    <option value="often">👨‍🍳 MasterChef in the making</option>
+    <option value="sometimes">🥄 I cook when UberEats says no</option>
+    <option value="never">🔥 Kitchen = danger zone</option>
+  </select>
+
+  <label>Food Sharing</label>
+  <select>
+    <option value="yes">🍕 What’s mine is yours</option>
+    <option value="no">🙅‍♀️ Hands off my snacks</option>
+  </select>
+
+  <label>Pet Friendly?</label>
+  <select>
+    <option value="yes">🐶 Love all fur babies</option>
+    <option value="no">😬 Allergic or just not my thing</option>
+  </select>
+
+  <label>Guest Policy</label>
+  <select>
+    <option value="rarely">🔐 My space = my sanctuary</option>
+    <option value="sometimes">🎈Occasional hangouts</option>
+    <option value="frequently">🏠 Open house always</option>
+  </select>
+
+  <label>Partying at Home?</label>
+  <select>
+    <option value="never">📚 More chill, less thrill</option>
+    <option value="sometimes">🕺 When the vibe is right</option>
+    <option value="often">🎉 Party central</option>
+  </select>
+
+  <label>Overnight Guests?</label>
+  <select>
+    <option value="allowed">🛏️ Sure, guests welcome</option>
+    <option value="not_allowed">🚫 No sleepovers, please</option>
+  </select>
+      <div class="buttons"><button onclick="prevStep(3)">Back</button><button onclick="submitForm()">Submit</button></div>
+    </div>
+  </div>
+</div>
+<script>
+  function nextStep(current) {
+    const currentStep = document.getElementById(`step${current}`);
+    const nextStep = document.getElementById(`step${current + 1}`);
+    currentStep.classList.remove('active');
+    currentStep.classList.add('exit-left');
+    nextStep.classList.remove('exit-right');
+    nextStep.classList.add('active');
+  }
+  function prevStep(current) {
+    const currentStep = document.getElementById(`step${current}`);
+    const prevStep = document.getElementById(`step${current - 1}`);
+    currentStep.classList.remove('active');
+    currentStep.classList.add('exit-right');
+    prevStep.classList.remove('exit-left');
+    prevStep.classList.add('active');
+  }
+  function submitForm() {
+    alert('🎉 Profile Submitted!');
+    // Backend hook here
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compatibility Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+        .filters {
+            width: 250px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .results {
+            flex: 1;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .filters label, .filters h2 {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #444;
+        }
+        .filters select, .filters input[type="checkbox"] {
+            margin-bottom: 10px;
+        }
+        .filters select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .profile {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .profile:last-child {
+            border-bottom: none;
+        }
+        .profile h3 {
+            margin: 0;
+            color: #28a745;
+        }
+        .profile p {
+            margin: 5px 0;
+            color: #555;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #28a745;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Compatibility Results for {{ name }}</h1>
+    <div class="container">
+        <div class="filters">
+            <h2>Filter & Sort</h2>
+            <label for="budget">Budget:</label>
+            <select id="budget" onchange="filterAndSort()">
+                <option value="any">Any Budget</option>
+                <option value="below_10000">Below ₹10,000</option>
+                <option value="10000_20000">₹10,000–₹20,000</option>
+                <option value="above_20000">Above ₹20,000</option>
+            </select>
+            
+            <label for="sort">Sort By:</label>
+            <select id="sort" onchange="filterAndSort()">
+                <option value="compatibility">Compatibility</option>
+                <option value="newest">Newest</option>
+                <option value="budget_low_high">Budget: Low to High</option>
+                <option value="budget_high_low">Budget: High to Low</option>
+            </select>
+            
+            <h2>Dealbreakers</h2>
+            <label><input type="checkbox" id="non_vegetarian" onchange="filterAndSort()"> Non-Vegetarian</label>
+            <label><input type="checkbox" id="smoker" onchange="filterAndSort()"> Smoker</label>
+            <label><input type="checkbox" id="hosts_parties" onchange="filterAndSort()"> Hosts Parties</label>
+            <label><input type="checkbox" id="pets_allowed" onchange="filterAndSort()"> Pets Allowed</label>
+        </div>
+        <div class="results" id="results">
+            {% if scores %}
+                {% for index, score in scores %}
+                <div class="profile" data-index="{{ index }}" data-score="{{ score }}"
+                     data-budget="{{ profiles[index].monthly_budget|default(0) }}"
+                     data-diet="{{ profiles[index].diet|default('') }}"
+                     data-smoking="{{ profiles[index].smoking|default('') }}"
+                     data-partying="{{ profiles[index].partying_at_home|default('') }}"
+                     data-pets="{{ profiles[index].pet_friendly|default('') }}"
+                     data-name="{{ profiles[index].name|default('Anonymous') }}"
+                     data-city="{{ profiles[index].preferred_city|default('N/A') }}">
+                    <h3>Profile {{ index }}: {{ "%.2f" % score }}% Compatibility</h3>
+                    <p>Name: {{ profiles[index].name|default('Anonymous') }}</p>
+                    <p>City: {{ profiles[index].preferred_city|default('N/A')|capitalize }}</p>
+                    <p>Budget: ₹{{ profiles[index].monthly_budget|default('N/A') }}</p>
+                    <p>Diet: {{ profiles[index].diet|default('N/A')|capitalize }}</p>
+                    <p>Smoking: {{ profiles[index].smoking|default('N/A')|capitalize }}</p>
+                    <p>Partying at Home: {{ profiles[index].partying_at_home|default('N/A')|capitalize }}</p>
+                    <p>Pet Friendly: {{ profiles[index].pet_friendly|default('N/A')|capitalize }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No results available.</p>
+            {% endif %}
+        </div>
+    </div>
+    <a href="/">Back to Form</a>
+    <script>
+        const profiles = Array.from(document.querySelectorAll('.profile'));
+        const resultsDiv = document.getElementById('results');
+        
+        function filterAndSort() {
+            const budgetFilter = document.getElementById('budget').value;
+            const sortOption = document.getElementById('sort').value;
+            const nonVeg = document.getElementById('non_vegetarian').checked;
+            const smoker = document.getElementById('smoker').checked;
+            const hostsParties = document.getElementById('hosts_parties').checked;
+            const petsAllowed = document.getElementById('pets_allowed').checked;
+            
+            let filteredProfiles = profiles.filter(profile => {
+                const diet = profile.dataset.diet.toLowerCase();
+                const smoking = profile.dataset.smoking.toLowerCase();
+                const partying = profile.dataset.partying.toLowerCase();
+                const pets = profile.dataset.pets.toLowerCase();
+                
+                if (nonVeg && (diet === 'non_vegetarian' || diet === 'non-vegetarian')) return false;
+                if (smoker && smoking !== 'no') return false;
+                if (hostsParties && (partying === 'often' || partying === 'sometimes')) return false;
+                if (petsAllowed && pets === 'yes') return false;
+                
+                return true;
+            });
+            
+            filteredProfiles = filteredProfiles.filter(profile => {
+                const budget = parseFloat(profile.dataset.budget) || 0;
+                if (budgetFilter === 'below_10000') return budget < 10000;
+                if (budgetFilter === '10000_20000') return budget >= 10000 && budget <= 20000;
+                if (budgetFilter === 'above_20000') return budget > 20000;
+                return true;
+            });
+            
+            filteredProfiles.sort((a, b) => {
+                const scoreA = parseFloat(a.dataset.score);
+                const scoreB = parseFloat(b.dataset.score);
+                const budgetA = parseFloat(a.dataset.budget) || 0;
+                const budgetB = parseFloat(b.dataset.budget) || 0;
+                const indexA = parseInt(a.dataset.index);
+                const indexB = parseInt(b.dataset.index);
+                
+                if (sortOption === 'compatibility') return scoreB - scoreA;
+                if (sortOption === 'newest') return indexB - indexA;
+                if (sortOption === 'budget_low_high') return budgetA - budgetB;
+                if (sortOption === 'budget_high_low') return budgetB - budgetA;
+                return 0;
+            });
+            
+            resultsDiv.innerHTML = '';
+            filteredProfiles.forEach(profile => resultsDiv.appendChild(profile));
+            if (filteredProfiles.length === 0) {
+                resultsDiv.innerHTML = '<p>No profiles match the selected filters.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
