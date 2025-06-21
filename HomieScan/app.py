@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from agreementgenerator import generate_agreement
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.ensemble import GradientBoostingRegressor
@@ -118,6 +119,18 @@ def compute_compatibility(user_data, df, scaler, enc, model, X_all):
 @app.route('/')
 def index():
     return render_template('form.html')
+
+@app.route('/agreement', methods=['POST']) #agreement generator route
+def agreement():
+    data = request.get_json()
+    preferences = data.get("preferences", {})
+    
+    if not preferences:
+        return jsonify({"error": "No preferences provided"}), 400
+
+    lines = generate_agreement(preferences)
+    return jsonify({"agreement": lines})
+
 
 @app.route('/submit', methods=['POST'])
 def submit():
