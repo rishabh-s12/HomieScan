@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>HomieScan — Find Your Perfect Roommate</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: #f0f2f5;
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
     }
 
     body::before {
@@ -19,67 +19,51 @@
       position: fixed;
       inset: 0;
       z-index: -10;
-      background: url('bg2.png') no-repeat center center;
+      background: url('limebg.avif') no-repeat center center;
       background-size: cover;
-      filter: blur(1px);
-      opacity: 1;
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('background.jpg') no-repeat center center;
-      background-size: cover;
-      filter: blur(4px);
-      z-index: 0;
+      filter: blur(2px);
       opacity: 0.8;
     }
 
-    .features {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
-      flex-wrap: wrap;
-      padding: 40px 20px;
+    .features, .locations, .carousel-container, section {
+      padding: 60px 20px;
+      background: transparent;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .box {
       position: relative;
-      width: 190px;
-      height: 265px;
-      background: #081053;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px #03181c;
+      width: 200px;
+      height: 280px;
+      background: #8DBCC7;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 17, 21, 0.5);
       overflow: hidden;
       cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
 
     .box:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 30px #02252b;
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
     }
 
     .box-image {
-      height: 145px;
+      height: 150px;
       width: 100%;
       background-size: cover;
       background-position: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
       flex-shrink: 0;
     }
 
     .box-content {
-      padding: 12px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -87,31 +71,73 @@
     }
 
     .box .name {
-      margin-top: 8px;
-      font-weight: bold;
-      color: #f7f7f7;
-      font-size: 16px;
+      margin-top: 10px;
+      font-weight: 600;
+      color: #2F4858;
+      font-size: 18px;
     }
 
     .box .desc {
-      margin-top: 6px;
+      margin-top: 8px;
       font-size: 14px;
-      color: white;
+      color: #2F4858;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.4s ease;
     }
 
     .box:hover .desc {
       opacity: 1;
     }
 
-
-    /* Carousel */
-    .carousel-container {
-      width: 960px; /* 3 cards x 300px + 2 gaps x 30px */
+    .location-box {
+      position: relative;
+      width: 200px;
+      height: 280px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(94, 153, 168, 0.3);
       overflow: hidden;
-      margin-bottom: 50px;
-      margin-left: 145px; 
+      cursor: pointer;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .location-box:hover {
+      transform: translateY(-8px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(0, 17, 21, 0.5);
+    }
+
+    .location-image {
+      height: 100%;
+      width: 100%;
+      opacity: 1;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .location-box .name {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: 700;
+      color: white;
+      font-size: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      text-align: center;
+      width: 100%;
+      z-index: 2;
+    }
+
+    .location-box::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .carousel-container {
+      width: 960px;
+      overflow: hidden;
+      margin: 0 auto 60px;
     }
 
     .carousel-track {
@@ -122,150 +148,192 @@
 
     .review-card {
       flex: 0 0 300px;
-      background: #fff;
+      background: rgba(235, 255, 216, 0.9);
       border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(94, 153, 168, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .review-card:hover {
+      transform: translateY(-5px);
     }
 
     .review-header {
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       display: flex;
       justify-content: space-between;
-      color: #40798C;
+      color: #2F4858;
     }
 
     .review-text {
       font-size: 15px;
       color: #2F4858;
-      line-height: 1.5;
+      line-height: 1.6;
     }
+
+    .logo {
+  width: 80px;
+  height: 80px;
+  margin-right: 12px;
+  object-fit: contain;
+  margin-top: -20px; /* Adjust to visually center */
+  margin-bottom: -20px; /* Keeps navbar height unchanged */
+}
+
   </style>
 </head>
-<body class="bg-[#EBFFD8] text-[#2D2A42]">
+<body class="bg-[#EBFFD8] text-[#2F4858]">
 
   <!-- Header -->
-  <header class="bg-gradient-to-r from-[#081053] via-[#8DBCC7] to-[#A4CCD9] shadow-md px-6 py-4 flex justify-between items-center">
-    <h1 class="text-2xl font-semibold text-white">HomieScan</h1>
-    <nav class="space-x-6">
-      <a href="#" class="text-[#1F1B3A] font-medium hover:text-[#081053]">Home</a>
-      <a href="#" class="text-[#1F1B3A] font-medium hover:text-[#081053]">Sign Up / Log In</a>
+  <header class="bg-[#2F4858] shadow-lg px-6 py-4 flex justify-between items-center fixed w-full z-20">
+    <div class="flex items-center">
+      <img src="logo.png" alt="HomieScan Logo" class="logo">
+      <h1 class="text-3xl font-bold text-[white]">HomieScan</h1>
+    </div>
+    <nav class="space-x-8">
+      <a href="#" class="text-[white] font-medium text-lg hover:text-[#C4E1E6] transition">Home</a>
+      <a href="#" class="text-[white] font-medium text-lg hover:text-[#C4E1E6] transition">Sign Up / Log In</a>
     </nav>
   </header>
 
   <!-- Hero Section -->
-  <section class="relative h-[80vh] flex items-center overflow-hidden bg-[#C4E1E6]">
-    <div class="hero absolute inset-0 z-0"></div>
-    <div class="relative z-10 flex items-center px-10 gap-12">
-      <div class="max-w-md text-white">
-        <h2 class="text-4xl font-bold mb-4">Find your perfect roommate vibe</h2>
-        <p class="mb-6">Compatibility-based matching to make shared living easy, fun, and drama-free.</p>
-        <button class="bg-white text-[#1F1B3A] font-semibold py-2 px-6 rounded-full hover:bg-[#A4CCD9] transition">
-          Find Your Roomie
-        </button>
+<section class="relative h-[100vh] flex items-center overflow-hidden bg-[#A4CCD9]">
+  <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+    <source src="bgvideo.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  
+  <!-- Light gradient overlay for better clarity -->
+  <div class="absolute inset-0 bg-gradient-to-b from-white/20 to-white/30 z-0"></div>
+
+  <div class="relative z-10 flex items-center px-12 gap-16 max-w-7xl mx-auto">
+    <div class="max-w-lg bg-[#EBFFD8]/90 p-8 rounded-xl shadow-2xl">
+      <h2 class="text-5xl font-bold mb-6 text-[#2F4858] leading-tight">
+        Find Your Perfect Roommate Vibe
+      </h2>
+      <p class="mb-8 text-lg text-[#2F4858] leading-relaxed">
+        Discover compatibility-based matching to make shared living effortless, fun, and drama-free.
+      </p>
+      <button class="bg-[#8DBCC7] text-[#2F4858] font-semibold py-3 px-8 rounded-full hover:bg-[#A4CCD9] transition transform hover:scale-105">
+        Find Your Roomie
+      </button>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Features Section -->
+  <section class="features bg-transparent">
+    <h2 class="w-full text-center text-4xl font-bold mb-12 text-[#2F4858]">Features</h2>
+    <div class="flex flex-wrap justify-center gap-8 max-w-6xl mx-auto">
+      <div class="box"><div class="box-image" style="background-image: url('pact.jpg');"></div><div class="box-content"><div class="name">Homify Pact</div><div class="desc">Auto-generate and customize roommate agreements with ease.</div></div></div>
+      <div class="box"><div class="box-image" style="background-image: url('score.png');"></div><div class="box-content"><div class="name">Homify MatchScore</div><div class="desc">Get a compatibility score tailored to your lifestyle.</div></div></div>
+      <div class="box"><div class="box-image" style="background-image: url('chat.jpg');"></div><div class="box-content"><div class="name">Homify SecureChat</div><div class="desc">Private and encrypted in-app messaging for flatmates.</div></div></div>
+      <div class="box"><div class="box-image" style="background-image: url('spotify.jpg');"></div><div class="box-content"><div class="name">Homify Blend</div><div class="desc">Create shared music playlists that update daily.</div></div></div>
+      <div class="box"><div class="box-image" style="background-image: url('bargain.jpg');"></div><div class="box-content"><div class="name">Homify Bargain</div><div class="desc">Negotiate and split rent seamlessly with flatmates.</div></div></div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="py-16 px-4 bg-transparent">
+    <h2 class="text-center text-4xl font-bold mb-12 text-[#2F4858]">How Does It Work?</h2>
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
+      <div class="bg-[#EBFFD8]/90 p-8 rounded-xl shadow-lg backdrop-blur-lg">
+        <h3 class="text-xl font-semibold mb-3 text-[#2F4858]">1. Create Your Profile</h3>
+        <p class="text-[#2F4858] leading-relaxed">Answer simple lifestyle and preference questions to get started.</p>
+      </div>
+      <div class="bg-[#EBFFD8]/90 p-8 rounded-xl shadow-lg backdrop-blur-lg">
+        <h3 class="text-xl font-semibold mb-3 text-[#2F4858]">2. Get Matched</h3>
+        <p class="text-[#2F4858] leading-relaxed">Our smart algorithms calculate your compatibility score.</p>
+      </div>
+      <div class="bg-[#EBFFD8]/90 p-8 rounded-xl shadow-lg backdrop-blur-lg">
+        <h3 class="text-xl font-semibold mb-3 text-[#2F4858]">3. Connect Securely</h3>
+        <p class="text-[#2F4858] leading-relaxed">Message potential roommates through our secure chat.</p>
       </div>
     </div>
   </section>
 
-  <!-- Features Section -->
-  <section class="features">
-    <div class="box">
-      <div class="box-image" style="background-image: url('pact.jpg');"></div>
-      <div class="box-content">
-        <div class="name">Homify Pact</div>
-        <div class="desc">Auto-generate and customize roommate agreements with ease.</div>
-      </div>
-    </div>
-    <div class="box">
-      <div class="box-image" style="background-image: url('score.png');"></div>
-      <div class="box-content">
-        <div class="name">Homify MatchScore</div>
-        <div class="desc">Get a compatibility score tailored to your lifestyle.</div>
-      </div>
-    </div>
-    <div class="box">
-      <div class="box-image" style="background-image: url('chat.jpg');"></div>
-      <div class="box-content">
-        <div class="name">Homify SecureChat</div>
-        <div class="desc">Private and encrypted in-app messaging for flatmates.</div>
-      </div>
-    </div>
-    <div class="box">
-      <div class="box-image" style="background-image: url('spotify.jpg');"></div>
-      <div class="box-content">
-        <div class="name">Homify Blend</div>
-        <div class="desc">Create shared music playlists that update daily.</div>
-      </div>
-    </div>
-    <div class="box">
-      <div class="box-image" style="background-image: url('bargain.jpg');"></div>
-      <div class="box-content">
-        <div class="name">Homify Bargain</div>
-        <div class="desc">Negotiate and split rent seamlessly with flatmates.</div>
-      </div>
+  <!-- Locations Section -->
+  <section class="locations bg-transparent">
+    <h2 class="text-center text-4xl font-bold mb-12 text-[#2F4858]">Popular Locations</h2>
+    <div class="max-w-6xl mx-auto grid grid-cols-4 gap-8">
+      <div class="location-box"><div class="location-image" style="background-image: url('mumbai.jpeg');"></div><div class="name">Mumbai</div></div>
+      <div class="location-box"><div class="location-image" style="background-image: url('bengaluru.webp');"></div><div class="name">Bengaluru</div></div>
+      <div class="location-box"><div class="location-image" style="background-image: url('delhi.webp');"></div><div class="name">Delhi</div></div>
+      <div class="location-box"><div class="location-image" style="background-image: url('hyderabad.jpg');"></div><div class="name">Hyderabad</div></div>
+      <div class="location-box"><div class="location-image" style="background-image: url('chennai.jpg');"></div><div class="name">Chennai</div></div>
+      <div class="location-box"><div class="location-image" style="background-image: url('pune.avif');"></div><div class="name">Pune</div></div>
+      <div class="location-box"><div class="location-image" style="background-image: url('kolkata.webp');"></div><div class="name">Kolkata</div></div>
+      <div class="location-box"><div class="location-image" style="background-image: url('ahmedabad.webp');"></div><div class="name">Ahmedabad</div></div>
     </div>
   </section>
 
   <!-- Carousel Section -->
- <div class="carousel-container">
-  <div class="carousel-track" id="carouselTrack">
-    <div class="review-card">
-      <div class="review-header">⭐️⭐️⭐️⭐️⭐️ <span>- Priya</span></div>
-      <div class="review-text">Found my ideal roommate in just 3 days. Super helpful!</div>
-    </div>
-    <div class="review-card">
-      <div class="review-header">⭐️⭐️⭐️⭐️☆ <span>- Aman</span></div>
-      <div class="review-text">Really intuitive design and matching algorithm!</div>
-    </div>
-    <div class="review-card">
-      <div class="review-header">⭐️⭐️⭐️⭐️⭐️ <span>- Isha</span></div>
-      <div class="review-text">Helped me connect with people who matched my lifestyle.</div>
-    </div>
-    <div class="review-card">
-      <div class="review-header">⭐️⭐️⭐️☆☆ <span>- Rahul</span></div>
-      <div class="review-text">It’s good, but I wish there were more location filters.</div>
-    </div>
-    <div class="review-card">
-      <div class="review-header">⭐️⭐️⭐️⭐️⭐️ <span>- Simran</span></div>
-      <div class="review-text">Absolutely love this app. Best roommate finder ever!</div>
-    </div>
-    <div class="review-card">
-      <div class="review-header">⭐️⭐️⭐️⭐️☆ <span>- Ankit</span></div>
-      <div class="review-text">Easy to use and had great recommendations. Loved it!</div>
+  <div class="carousel-container bg-transparent">
+    <h2 class="w-full text-center text-4xl font-bold mb-12 text-[#2F4858]">Reviews</h2>
+    <div class="carousel-track" id="carouselTrack">
+      <div class="review-card"><div class="review-header">⭐️⭐️⭐️⭐️⭐️ <span>- Priya</span></div><div class="review-text">Found my ideal roommate in just 3 days. Super helpful!</div></div>
+      <div class="review-card"><div class="review-header">⭐️⭐️⭐️⭐️☆ <span>- Aman</span></div><div class="review-text">Really intuitive design and matching algorithm!</div></div>
+      <div class="review-card"><div class="review-header">⭐️⭐️⭐️⭐️⭐️ <span>- Isha</span></div><div class="review-text">Helped me connect with people who matched my lifestyle.</div></div>
+      <div class="review-card"><div class="review-header">⭐️⭐️⭐️⭐️☆ <span>- Rahul</span></div><div class="review-text">It’s good, but I wish there were more location filters.</div></div>
+      <div class="review-card"><div class="review-header">⭐️⭐️⭐️⭐️⭐️ <span>- Simran</span></div><div class="review-text">Absolutely love this app. Best roommate finder ever!</div></div>
+      <div class="review-card"><div class="review-header">⭐️⭐️⭐️⭐️☆ <span>- Ankit</span></div><div class="review-text">Easy to use and had great recommendations. Loved it!</div></div>
     </div>
   </div>
-</div>
 
-<script>
-  const track = document.getElementById('carouselTrack');
-  const totalCards = 6;
-  const visibleCards = 3;
-  const cardWidth = 300;
-  const gap = 30;
-  const fullCardWidth = cardWidth + gap;
-  let index = 0;
-
-  setInterval(() => {
-    index++;
-    if (index > totalCards - visibleCards) index = 0;
-    track.style.transform = `translateX(-${index * fullCardWidth}px)`;
-  }, 2500);
-</script>
-
- <!-- Footer -->
-    <footer class="bg-[#081053] py-10 text-center text-sm text-[#6B7280]">
-      <div class="space-x-4 mb-4">
-        <a href="#" class="hover:text-[#1F1B3A]">About</a>
-        <a href="#" class="hover:text-[#1F1B3A]">Contact</a>
-        <a href="#" class="hover:text-[#1F1B3A]">Privacy</a>
-        <a href="#" class="hover:text-[#1F1B3A]">Terms</a>
-        <a href="#" class="hover:text-[#1F1B3A]">Instagram</a>
-        <a href="#" class="hover:text-[#1F1B3A]">Twitter</a>
+  <!-- FAQ Section -->
+  <section class="py-16 px-4 bg-transparent">
+    <h2 class="text-center text-4xl font-bold mb-12 text-[#2F4858]">FAQs</h2>
+    <div class="max-w-4xl mx-auto space-y-8">
+      <div class="bg-[#EBFFD8]/90 p-8 rounded-xl shadow-lg backdrop-blur-lg">
+        <h4 class="font-semibold text-xl text-[#2F4858] mb-3">How do I know my match is safe?</h4>
+        <p class="text-[#2F4858] leading-relaxed">All users go through verification, and chats are encrypted end-to-end.</p>
       </div>
-      <p>&copy; 2025 HomieScan. All rights reserved.</p>
-    </footer>
+      <div class="bg-[#EBFFD8]/90 p-8 rounded-xl shadow-lg backdrop-blur-lg">
+        <h4 class="font-semibold text-xl text-[#2F4858] mb-3">Is this service free?</h4>
+        <p class="text-[#2F4858] leading-relaxed">Yes, core features are free. Premium options are available for enhanced services.</p>
+      </div>
+      <div class="bg-[#EBFFD8]/90 p-8 rounded-xl shadow-lg backdrop-blur-lg">
+        <h4 class="font-semibold text-xl text-[#2F4858] mb-3">Can I choose the city for my search?</h4>
+        <p class="text-[#2F4858] leading-relaxed">Absolutely! Filter roommates by your desired city and even neighborhood.</p>
+      </div>
+      <div class="bg-[#EBFFD8]/90 p-8 rounded-xl shadow-lg backdrop-blur-lg">
+        <h4 class="font-semibold text-xl text-[#2F4858] mb-3">What if I want to remove my profile?</h4>
+        <p class="text-[#2F4858] leading-relaxed">You can deactivate or delete your profile from the account settings anytime.</p>
+      </div>
+    </div>
+  </section>
 
+  <!-- Footer -->
+  <footer class="bg-[#2F4858] py-12 text-center text-sm text-[#C4E1E6]">
+    <div class="space-x-6 mb-6">
+      <a href="#" class="hover:text-[#2F4858] font-medium transition">About</a>
+      <a href="#" class="hover:text-[#2F4858] font-medium transition">Contact</a>
+      <a href="#" class="hover:text-[#2F4858] font-medium transition">Privacy</a>
+      <a href="#" class="hover:text-[#2F4858] font-medium transition">Terms</a>
+      <a href="#" class="hover:text-[#2F4858] font-medium transition">Instagram</a>
+      <a href="#" class="hover:text-[#2F4858] font-medium transition">Twitter</a>
+    </div>
+    <p>© 2025 HomieScan. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const track = document.getElementById('carouselTrack');
+    const totalCards = 6;
+    const visibleCards = 3;
+    const cardWidth = 300;
+    const gap = 30;
+    const fullCardWidth = cardWidth + gap;
+    let index = 0;
+
+    setInterval(() => {
+      index++;
+      if (index > totalCards - visibleCards) index = 0;
+      track.style.transform = `translateX(-${index * fullCardWidth}px)`;
+    }, 2500);
+  </script>
 
 </body>
 </html>
