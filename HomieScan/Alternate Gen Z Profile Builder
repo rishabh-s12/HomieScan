@@ -130,8 +130,7 @@
       <label>Age</label><input type="number" />
       <label>Gender</label><select><option>Male</option><option>Female</option><option>Other</option></select>
       <label>Profession</label><input type="text" />
-      <label>Monthly Budget (₹)</label><input type="number" />
-      <label>Preferred City</label><input type="text" />
+      
       <div class="buttons"><div></div><button onclick="nextStep(1)">Next</button></div>
     </div>
     <div class="form-step" id="step2">
