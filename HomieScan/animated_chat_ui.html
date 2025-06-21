@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Messages | Homify</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(to right, #f0f7f4, #e6f4ea);
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+      animation: fadeInBody 1s ease-in;
+    }
+
+    @keyframes fadeInBody {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .sidebar {
+      width: 320px;
+      background: #ffffff;
+      border-right: 1px solid #ddd;
+      padding: 30px 24px;
+      overflow-y: auto;
+      box-shadow: 5px 0 20px rgba(0,0,0,0.05);
+      animation: slideInLeft 0.7s ease-out;
+    }
+
+    @keyframes slideInLeft {
+      from { transform: translateX(-100%); }
+      to { transform: translateX(0); }
+    }
+
+    .sidebar h2 {
+      font-size: 26px;
+      margin-bottom: 30px;
+      color: #1f3b08;
+    }
+
+    .chat-user {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .chat-user:hover,
+    .chat-user.active {
+      background: #e6f4ea;
+      transform: scale(1.02);
+    }
+
+    .chat-user img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .chat-user .name {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .main-chat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #f9fdf8;
+      animation: fadeInChat 1s ease-in-out;
+    }
+
+    @keyframes fadeInChat {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .chat-header {
+      padding: 30px;
+      border-bottom: 1px solid #ddd;
+      font-size: 22px;
+      font-weight: 700;
+      color: #1f3b08;
+      background: #fff;
+      animation: slideDown 0.6s ease-in;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      scroll-behavior: smooth;
+    }
+
+    .message {
+      max-width: 70%;
+      padding: 16px 22px;
+      border-radius: 20px;
+      font-size: 17px;
+      line-height: 1.6;
+      position: relative;
+      opacity: 0;
+      animation: popIn 0.4s forwards;
+    }
+
+    .message:nth-child(1) { animation-delay: 0.1s; }
+    .message:nth-child(2) { animation-delay: 0.3s; }
+    .message:nth-child(3) { animation-delay: 0.5s; }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.sent {
+      align-self: flex-end;
+      background: #baf7d2;
+      color: #065f46;
+    }
+
+    .message.received {
+      align-self: flex-start;
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 24px 30px;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      animation: fadeInBottom 0.5s ease-in;
+    }
+
+    @keyframes fadeInBottom {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 16px 20px;
+      font-size: 17px;
+      border: 1px solid #ccc;
+      border-radius: 999px;
+      outline: none;
+    }
+
+    .chat-input button {
+      margin-left: 16px;
+      padding: 16px 26px;
+      font-size: 17px;
+      background: #40798C;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .chat-input button:hover {
+      background: #2e5d70;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar" id="userList">
+    <h2>Messages</h2>
+    <div class="chat-user active" onclick="openChat('Alice')">
+      <img src="https://randomuser.me/api/portraits/women/1.jpg" />
+      <div class="name">Alice Sharma</div>
+    </div>
+    <div class="chat-user" onclick="openChat('Raj')">
+      <img src="https://randomuser.me/api/portraits/men/2.jpg" />
+      <div class="name">Raj Kapoor</div>
+    </div>
+    <div class="chat-user" onclick="openChat('Nidhi')">
+      <img src="https://randomuser.me/api/portraits/women/3.jpg" />
+      <div class="name">Nidhi Patel</div>
+    </div>
+  </div>
+
+  <div class="main-chat">
+    <div class="chat-header" id="chatHeader">Chat with Alice Sharma</div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message received">Hey! I saw your listing, is it still available?</div>
+      <div class="message sent">Yes it is! Would you like to schedule a visit?</div>
+      <div class="message received">Sure, I'm free this weekend 😊</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" placeholder="Type your message..." />
+      <button>Send</button>
+    </div>
+  </div>
+
+  <script>
+    function openChat(name) {
+      document.getElementById('chatHeader').innerText = `Chat with ${name}`;
+      document.querySelectorAll('.chat-user').forEach(u => u.classList.remove('active'));
+      [...document.querySelectorAll('.chat-user')].find(u => u.innerText.includes(name)).classList.add('active');
+
+      const chatBox = document.getElementById('chatMessages');
+      chatBox.innerHTML = `
+        <div class="message received">Hey ${name}, how are you?</div>
+        <div class="message sent">Hi ${name}, let's connect about the flat!</div>
+        <div class="message received">Sounds good. When can we talk?</div>
+      `;
+    }
+  </script>
+</body>
+</html>
