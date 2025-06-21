@@ -138,14 +138,14 @@
       <h2>Step 2: Lifestyle Preferences</h2>
       <label>Cleanliness Level</label>
 <select>
-  <option value="neat_freak">✨ I sparkle like a Swiffer</option>
-  <option value="chill_clean">🧼 Tidy-ish, not Monica Geller</option>
-  <option value="messy_genius">🎨 Organized chaos is my vibe</option>
+  <option value="very_clean">✨ I sparkle like a Swiffer</option>
+  <option value="average">🧼 Tidy-ish, not Monica Geller</option>
+  <option value="messy">🎨 Organized chaos is my vibe</option>
 </select>
 
 <label>Sleep Schedule</label>
 <select>
-  <option value="early_bird">🌅 Early bird, rise & grind</option>
+  <option value="early_riser">🌅 Early bird, rise & grind</option>
   <option value="flexible">🕰️ Go with the flow</option>
   <option value="night_owl">🌙 Vampire hours enthusiast</option>
 </select>
@@ -155,21 +155,20 @@
 
 <label>Noise Tolerance</label>
 <select>
-  <option value="silent">🔕 Peace & quiet please</option>
-  <option value="normal">🎶 Chill with tunes & convo</option>
-  <option value="party_mode">🔊 Let’s make some noise</option>
+  <option value="quiet">🔕 Peace & quiet please</option>
+  <option value="moderate">🎶 Chill with tunes & convo</option>
+  <option value="loud">🔊 Let’s make some noise</option>
 </select>
 
 <label>Smoking</label>
 <select>
   <option value="no">🚭 Nope</option>
-  <option value="sometimes">💨 Occasionally puff puff</option>
   <option value="yes">🔥 Smoker's lounge status</option>
 </select>
 
 <label>Drinking</label>
 <select>
-  <option value="no">🥤 Never touch the stuff</option>
+  <option value="never">🥤 Never touch the stuff</option>
   <option value="social">🍷 Only with the squad</option>
   <option value="regular">🍻 Happy hour is sacred</option>
 </select>
@@ -219,7 +218,7 @@
 
   <label>Partying at Home?</label>
   <select>
-    <option value="no">📚 More chill, less thrill</option>
+    <option value="never">📚 More chill, less thrill</option>
     <option value="sometimes">🕺 When the vibe is right</option>
     <option value="often">🎉 Party central</option>
   </select>
